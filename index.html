@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="roscc">
+  <head>
+    <meta charset="utf-8"/>
+    <title>JD-ROS Control Center</title>
+
+    <link rel="shortcut icon" href="assets/images/ros-logo.svg" type="image/svg" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/roscc.css">
+    <script type="text/javascript" src="assets/js/vendor.js"></script>
+    <script type="text/javascript" src="assets/js/roslib.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/control/control.component.js"></script>
+    <script type="text/javascript" src="app/helper/domains.service.js"></script>
+    <script type="text/javascript" src="app/helper/quaternions.service.js"></script>
+    <script type="text/javascript" src="app/navbar/navbar.component.js"></script>
+    <script type="text/javascript" src="app/parameters/parameters.component.js"></script>
+    <script type="text/javascript" src="app/services/service.component.js"></script>
+    <script type="text/javascript" src="app/settings/settings.service.js"></script>
+    <script type="text/javascript" src="app/settings/settings.component.js"></script>
+    <script type="text/javascript" src="app/topics/topic.component.js"></script>
+    <!--<script type="text/javascript" src="app/login/login.component.js"></script>  -->  
+
+
+  </head>
+
+  <body>
+    <cc-navbar></cc-navbar>
+
+    <div ng-view></div>
+
+
+    <!--<script type="text/javascript" src="assets/js/roscc.js"></script>-->
+  </body>
+</html>

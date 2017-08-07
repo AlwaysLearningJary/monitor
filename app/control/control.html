@@ -1,0 +1,354 @@
+<div class="alert alert-danger col-sm-6 col-sm-offset-3" role="alert" ng-if="!$ctrl.isValid">
+    <p class="lead"><i class="glyphicon glyphicon-warning-sign"></i> Whoops...Invalid User</p>
+    The user is <b>invalid</b> to connect {{ $ctrl.setting.address }}:{{ $ctrl.setting.port }}. Please input the correct <b>Verification Code</b>.
+</div>
+
+<div class="container-fluid" ng-if="$ctrl.isValid">
+  <!-- No connection alert -->
+  <div class="alert alert-danger col-sm-6 col-sm-offset-3" role="alert" ng-if="!$ctrl.isConnected">
+    <p class="lead"><i class="glyphicon glyphicon-warning-sign"></i> Whoops...</p>
+    The ROS Control Center is <b>not connected</b> to a robot running rosbridge_suite at {{ $ctrl.setting.address }}:{{ $ctrl.setting.port }}. You can change the URL in the <i>Settings</i> tab, further information can be found in the <a href="https://github.com/pantor/ros-control-center">GitHub Repository</a>.
+  </div>
+
+  <div class="alert alert-info col-sm-6 col-sm-offset-3" ng-if="$ctrl.isConnected && !$ctrl.hasFilteredDomains($ctrl.setting.advanced)">
+    <p class="lead"><i class="glyphicon glyphicon glyphicon-th-list"></i> Loading or nothing to show...</p>
+    In default mode, ROS Control Center does not show default nodes / parameters / services and topics. You can show every item by using the advanced view setting, either in the seperate settings tab or here:
+    <center style="margin-top: 10px;">
+      <button class="btn btn-info btn-sm" ng-click="$ctrl.setting.advanced = true">Enable Advanced View</button>
+    </center>
+  </div>
+
+  <div class="row" ng-if="$ctrl.isConnected && $ctrl.hasFilteredDomains($ctrl.setting.advanced)">
+    <div class="col-sm-4 sidebar hidden-xs">
+      <!-- Console Log -->
+      <div class="console">
+        <table class="table">
+          <tr ng-repeat="logEntry in $ctrl.data.rosout" ng-if="$ctrl.Domains.filterAdvanced(logEntry.abbr, $ctrl.setting.advanced)">
+            <td>
+              <strong ng-class="{ 'text-danger bg-danger': logEntry.level > 8, 'text-danger': logEntry.level == 8, 'text-warning': logEntry.level == 4, 'text-info': logEntry.level == 2, 'text-muted': logEntry.level < 2 }">
+                {{ logEntry.abbr }}
+              </strong>
+              <br>
+              <small><i class="glyphicon glyphicon-time"></i> {{ logEntry.dateString }}</small>
+            </td>
+            <td>{{ logEntry.msg }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Battery Status -->
+      <div class="battery" ng-if="$ctrl.setting.battery">
+        <strong>Battery</strong><br>
+
+        <div class="row" ng-show="$ctrl.batteryStatus">
+          <div class="col-xs-4 col-sm-3">
+            <p>{{ 100 * $ctrl.batteryStatus | number: 1 }} %</p>
+          </div>
+
+          <div class="col-xs-8 col-md-9">
+            <uib-progressbar type="{{ $ctrl.batteryStatus > 0.3 ? 'success' : 'danger' }}" min="0" max="1" value="$ctrl.batteryStatus"></uib-progressbar>
+          </div>
+        </div>
+
+        <div class="row" ng-show="!$ctrl.batteryStatus">
+          <div class="col-xs-12">
+            <p><i>No battery data yet.</i></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic shown -->
+    <div class="cols-xs-12 col-sm-8" style="float: right;">
+    <!-- system status -->
+	<div class="panel panel-default">
+
+	  <div class="panel-heading clearfix">
+	    <h2 class="panel-title" style="color:#00CED1">
+	      /system_status &nbsp; 系统状态 &nbsp;&nbsp;<small style="font-size: 12px;">(&nbsp;Timestamp&nbsp;=&nbsp;{{0+$ctrl.sysstatusStatus.data[0]}}&nbsp;)</small>
+	    </h2>
+	  </div>
+
+	  <div class="panel-body" ng-show="!$ctrl.sysstatusStatus">
+              <label style="color:#FF0000; font-size:18px">Not recieved! 未接收到系统状态信息！！</label>
+	  </div>
+
+	  <div class="panel-body" ng-show="$ctrl.sysstatusStatus">
+	    <div class="row">
+	      <div class="col-sm-6">
+
+		    <table class="table table-striped">
+			<tbody>
+			    <tr>
+				<td>fault_detection</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[1]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[1]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[1]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[1]}}</td>
+			    </tr>
+			    <tr>
+				<td>pub_node1</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[2]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[2]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[2]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[2]}}</td>
+			    </tr>
+			    <tr>
+				<td>pub_node2</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[3]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[3]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[3]>-1" style="color:#32CD32;">normal 正在运行! &nbsp;  value = {{$ctrl.sysstatusStatus.data[3]}}</td>
+			    </tr>
+			    <tr>
+				<td>pub_node3</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[4]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[4]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[4]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[4]}}</td>
+			    </tr>
+			    <tr>
+				<td>pub_node4</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[4]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[4]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[4]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[4]}}</td>
+			    </tr>
+			</tbody>
+		    </table>		   
+		 
+              </div>
+
+		
+	      
+	    </div>
+	  </div>
+
+         </div>
+
+
+    </div>
+
+ 
+    <div class="cols-xs-12 col-sm-8" style="float: right;" ng-if="!$ctrl.setting.showall">
+   
+    <!-- lowspeed -->
+	<div class="panel panel-default" ng-if="$ctrl.setting.lowspeed">
+	  <div class="panel-heading clearfix">
+	    <h3 class="panel-title">
+	      /lowspeed
+	      <small style="font-size: 12px;">(std_msgs/Int8)</small>
+	    </h3>
+	  </div>
+
+	  <div class="panel-body" ng-show="$ctrl.lowspeedStatus">
+	    <div class="row">
+	      <div class="col-xs-12">
+		<div class="input-group">
+		  <input type="number" class="form-control" ng-model="$ctrl.lowspeedStatus.data" ng-readonly="true">
+		  <span class="input-group-addon"></span>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+
+	  <div class="panel-body">
+	    <div class="row">
+	      <div class="col-xs-12">
+		<button class="btn btn-default pull-right" type="button" style="margin-left: 10px;" ng-click="$ctrl.publishLowspeed($ctrl.lowspeedPub)">Publish</button>
+		<div class="input-group">
+		  <input type="number" class="form-control"  ng-model="$ctrl.lowspeedPub.data" value="7" ng-readonly="false">
+		  <span class="input-group-addon"></span>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      
+    <!-- cmdvel -->
+	<div class="panel panel-default" ng-if="$ctrl.setting.cmdvel">
+	  <div class="panel-heading clearfix">
+	    <h3 class="panel-title">
+	      /cmd_vel
+	      <small style="font-size: 12px;">(geometry_msgs/Twist)</small>
+	    </h3>
+	  </div>
+
+	  <div class="panel-body" ng-show="$ctrl.cmdvelStatus">
+	    <div class="row">
+	      <div class="col-sm-6">
+		<form class="form-margin">
+		  <div class="form-group">
+		    <label>Linear X</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.cmdvelStatus.linear.x" ng-readonly="true">
+		      <span class="input-group-addon">m/s</span>
+		    </div>
+		  </div>
+               </div>
+
+		<!--  <div class="form-group">
+		    <label>Linear Y</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.cmdvelStatus.linear.y" ng-readonly="true">
+		      <span class="input-group-addon">m/s</span>
+		    </div>
+		  </div>
+
+		  <div class="form-group">
+		    <label>Linear Z</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.cmdvelStatus.linear.z" ng-readonly="true">
+		      <span class="input-group-addon">m/s</span>
+		    </div>
+		  </div>
+		</form>
+	      </div>
+
+	      <div class="col-sm-6">
+		<form class="form-horizontal form-margin">
+		  <div class="form-group">
+		    <label>Angular X</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.cmdvelStatus.angular.x" ng-readonly="true">
+		      <span class="input-group-addon">rad/s</span>
+		    </div>
+		  </div>
+
+		  <div class="form-group">
+		    <label>Angular Y</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.cmdvelStatus.angular.y" ng-readonly="true">
+		      <span class="input-group-addon">rad/s</span>
+		    </div>
+		  </div>-->
+	      <div class="col-sm-6">
+		  <div class="form-group">
+		    <label>Angular Z</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.cmdvelStatus.angular.z" ng-readonly="true">
+		      <span class="input-group-addon">rad/s</span>
+		    </div>
+		  </div>
+		</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    <!-- fix -->
+	<div class="panel panel-default" ng-if="$ctrl.setting.fix">
+	  <div class="panel-heading clearfix">
+	    <h3 class="panel-title">
+	      /fix
+	      <small style="font-size: 12px;">(sensor_msgs/NavSatFix)</small>
+	    </h3>
+	  </div>
+
+	  <div class="panel-body" ng-show="$ctrl.fixStatus">
+	    <div class="row">
+	      <div class="col-sm-6">
+		<form class="form-horizontal form-margin">
+		  <div class="form-group">
+		    <label>status/status</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.fixStatus.status.status" ng-readonly="true">
+		    </div>
+		  </div>
+
+		  <div class="form-group">
+		    <label>status/service</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.fixStatus.status.service" ng-readonly="true">
+		    </div>
+		  </div>
+
+		  <div class="form-group">
+		    <label>latitude</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.fixStatus.latitude" ng-readonly="true">
+		    </div>
+		  </div>
+		</form>
+	      </div>
+
+	      <div class="col-sm-6">
+		<form class="form-horizontal form-margin">
+		  <div class="form-group">
+		    <label>longitude</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.fixStatus.longitude" ng-readonly="true">
+		    </div>
+		  </div>
+
+		  <div class="form-group">
+		    <label>altitude</label>
+		    <div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.fixStatus.altitude" ng-readonly="true">
+		    </div>
+		  </div>
+
+		</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+   <!-- globalplan -->
+	<div class="panel panel-default" ng-if="$ctrl.setting.globalplan">
+	  <div class="panel-heading clearfix">
+	    <h3 class="panel-title">
+	      /global_path_planner/global_plan
+	      <small style="font-size: 12px;">(nav_msgs/Path)</small>
+	    </h3>
+	  </div>
+
+	  <div class="panel-body" ng-show="$ctrl.globalplanStatus">
+	    <div class="row">
+	      <div class="col-sm-6">
+		<form class="form-horizontal form-margin">
+		  <div class="form-group">
+		    <label>Global plan updated!</label>
+		    <!--<div class="input-group">
+		      <input type="number" class="form-control" ng-model="$ctrl.globalplanStatus.header.stamp" ng-readonly="true">
+		    </div>-->
+		  </div>
+		</form>
+	      </div>	      
+	    </div>
+	  </div>
+	</div>
+
+
+      
+    </div>
+
+
+    <div class="cols-xs-12 col-sm-8" style="float: right;" ng-if="$ctrl.setting.showall">
+      <div class="row">
+        <!-- Sidebar menu -->
+        <div class="col-sm-3">
+          <!-- Domains -->
+          <div class="panel panel-default panel-domain" ng-class="{ 'panel-active': $ctrl.activeDomain == domain }" ng-repeat="domain in $ctrl.getDomains()" ng-if="$ctrl.Domains.filterAdvanced(domain, $ctrl.setting.advanced)" ng-click="$ctrl.setActiveDomain(domain)">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ domain }}</h3>
+            </div>
+          </div>
+
+          <!-- Global parameters -->
+          <cc-parameter ng-repeat="parameter in $ctrl.getGlobalParameters()" ng-show="$ctrl.Domains.filterAdvanced(parameter.name, $ctrl.setting.advanced)" parameter="parameter"></cc-parameter>
+        </div>
+
+        <div class="col-sm-9">
+          <div ng-repeat="domain in $ctrl.getDomains()" ng-show="$ctrl.activeDomain == domain">
+            <p class="lead" style="font-size: 28px;">{{ domain }}</p>
+
+            <!-- Topics -->
+            <cc-topic topic="topic" ng-repeat="topic in $ctrl.Domains.getDataForDomain($ctrl.data.topics, domain, $ctrl.setting.advanced)"></cc-topic>
+
+            <!-- Services -->
+            <cc-service service="service" ng-repeat="service in $ctrl.Domains.getDataForDomain($ctrl.data.services, domain, $ctrl.setting.advanced)"></cc-service>
+
+            <!-- Parameters -->
+            <cc-parameter parameter="parameter" ng-repeat="parameter in $ctrl.Domains.getDataForDomain($ctrl.data.parameters, domain, $ctrl.setting.advanced)"></cc-parameter>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
