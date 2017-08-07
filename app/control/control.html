@@ -79,35 +79,11 @@
 
 		    <table class="table table-striped">
 			<tbody>
-			    <tr>
-				<td>fault_detection</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[1]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[1]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[1]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[1]}}</td>
-			    </tr>
-			    <tr>
-				<td>pub_node1</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[2]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[2]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[2]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[2]}}</td>
-			    </tr>
-			    <tr>
-				<td>pub_node2</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[3]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[3]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[3]>-1" style="color:#32CD32;">normal 正在运行! &nbsp;  value = {{$ctrl.sysstatusStatus.data[3]}}</td>
-			    </tr>
-			    <tr>
-				<td>pub_node3</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[4]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[4]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[4]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[4]}}</td>
-			    </tr>
-			    <tr>
-				<td>pub_node4</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[4]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[4]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[4]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[4]}}</td>
+			    <tr ng-repeat="x in $ctrl.nodelist">
+				<td>{{x.nodename}}</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[x.id]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[x.id]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
+				<td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}</td>
 			    </tr>
 			</tbody>
 		    </table>		   

@@ -5,14 +5,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var ros = void 0;
 var isConnected = false;
 var isValid = false;
+var isgetjson = 0;
 
 var ControlController = function () {
-  function ControlController($timeout, $interval, Settings, Domains, Md5) {
+  function ControlController($timeout, $interval, $http, Settings, Domains, Md5) {
     var _this = this;
 
     _classCallCheck(this, ControlController);
 
     this.$timeout = $timeout;
+    this.$http = $http;
     this.Domains = Domains;   
     this.isConnected = isConnected;
     this.isValid = isValid;
@@ -22,7 +24,22 @@ var ControlController = function () {
     if(this.setting.verificationCode){   
     this.validcode = Md5.hex_md5(this.setting.verificationCode);
     }
+
+  //  _this.$http.get('app/nodelist.json').then(function (result) {
+  //        
+   //         this.nodelist = result.data;
+//	    this.isgetjson = 100;
+
+    //    });
             
+    this.nodelist=[
+    { "id": 1, "nodename": "fault_detection" },
+    { "id": 2, "nodename": "pub_node1" },
+    { "id": 3, "nodename": "pub_node2" },
+    { "id": 4, "nodename": "pub_node3" },
+    { "id": 5, "nodename": "pub_node4" },
+    { "id": 6, "nodename": "pub_node5" }
+]
 
           
     
