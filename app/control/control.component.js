@@ -6,7 +6,6 @@ var ros = void 0;
 var isConnected = false;
 var isValid = false;
 var isgetjson = 0;
-
 var ControlController = function () {
   function ControlController($timeout, $interval, $http, Settings, Domains, Md5) {
     var _this = this;
@@ -270,6 +269,22 @@ var ControlController = function () {
       lowspeedTopic.subscribe(function (message) {
         _this8.lowspeedStatus = message;
       });
+    }
+
+    // Load structure, all data, parameters, topics, services, nodes...
+
+  }, {
+    key: 'backtohome',
+    value: function backtohome() {
+      var backpubTopic = new ROSLIB.Topic({
+        ros: ros,
+        name: this.setting.lowspeedTopic,
+        messageType: 'std_msgs/Int8'
+      });
+      var json = {"data": 126};
+      var data = angular.fromJson(json);
+      var message = new ROSLIB.Message(data);
+      backpubTopic.publish(message);
     }
 
     // Load structure, all data, parameters, topics, services, nodes...
