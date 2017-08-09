@@ -36,8 +36,7 @@ var ControlController = function () {
     { "id": 2, "nodename": "pub_node1" },
     { "id": 3, "nodename": "pub_node2" },
     { "id": 4, "nodename": "pub_node3" },
-    { "id": 5, "nodename": "pub_node4" },
-    { "id": 6, "nodename": "pub_node5" }
+    { "id": 5, "nodename": "pub_node4" }
 ]
 
           

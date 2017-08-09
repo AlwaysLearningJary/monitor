@@ -69,9 +69,9 @@
 	<div class="panel panel-default">
 
 	  <div class="panel-heading clearfix">
-	    <h2 class="panel-title" style="color:#00CED1">
+	    <strong class="text-primary" style="font-size: 16px;">
 	      /system_status &nbsp; 系统状态 &nbsp;&nbsp;<small style="font-size: 12px;">(&nbsp;Timestamp&nbsp;=&nbsp;{{0+$ctrl.sysstatusStatus.data[0]}}&nbsp;)</small>
-	    </h2>
+	    </strong>
 	  </div>
 
 	  <div class="panel-body" ng-show="!$ctrl.sysstatusStatus">
@@ -86,8 +86,8 @@
 			<tbody>
 			    <tr ng-repeat="x in $ctrl.nodelist">
 				<td>{{x.nodename}}</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[x.id]==-2" style="color:#FFB90F;">not initial 未初始化!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[x.id]==-1" style="color:#FF0000;">crash down 节点崩溃!!</td>
+				<td class="text-warning" ng-show="$ctrl.sysstatusStatus.data[x.id]==-2" >not initial 未初始化!</td>
+				<td class="text-danger bg-danger" ng-show="$ctrl.sysstatusStatus.data[x.id]==-1" >crash down 节点崩溃!!</td>
 				<td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}</td>
 			    </tr>
 			</tbody>
@@ -106,39 +106,7 @@
     </div>
 
 
-    <!-- back bubtton -->
-    <div class="cols-xs-12 col-sm-8" style="float: right;  margin-bottom: 6px;">
-    
-	<!--<button class="btn btn-info pull-right" type="button" style="margin-left: 10px;" ng-click="$ctrl.backtohome()">back_to_home（一键返程）</button> -->
-        <button class="btn btn-info pull-right" style="margin-left: 10px;" data-toggle="modal" data-target="#myModal">
-	back_to_home（一键返程）
-</button>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
 
-				<h4 class="modal-title" id="myModalLabel">
-					返回配送站
-				</h4>
-			</div>
-			<div class="modal-body">
-				确定要返回配送站吗？
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="button" class="btn btn-primary" ng-click="$ctrl.backtohome()" data-dismiss="modal">
-					确定返回
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
-
-
-    </div>
 
     <!-- Topic shown --> 
     <div class="cols-xs-12 col-sm-8" style="float: right;" ng-if="!$ctrl.setting.showall">
@@ -365,6 +333,40 @@
       </div>
     </div>
 
+
+<!-- back bubtton -->
+    <div class="cols-xs-12 col-sm-8" style="float: right;  margin-bottom: 6px;">
+    
+	<!--<button class="btn btn-info pull-right" type="button" style="margin-left: 10px;" ng-click="$ctrl.backtohome()">back_to_home（一键返程）</button> -->
+        <button class="btn btn-danger pull-right" style="margin-left: 10px;" data-toggle="modal" data-target="#myModal">
+	back_to_home（一键返程）
+	</button>
+<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+
+					<h4 class="modal-title" id="myModalLabel">
+						返回配送站
+					</h4>
+				</div>
+				<div class="modal-body">
+					确定要返回配送站吗？
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" ng-click="$ctrl.backtohome()" data-dismiss="modal">
+						确定返回
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+
+    </div>
 
   </div>
 </div>

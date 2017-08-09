@@ -24,8 +24,9 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Verification Code</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" placeholder="Verification code" ng-model="$ctrl.settings[$ctrl.index].verificationCode" ng-change="$ctrl.save()">
+                <input type="password" class="form-control" placeholder="Verification code" ng-model="$ctrl.settings[$ctrl.index].verificationCode" ng-change="$ctrl.save()">
 	        <span style="color:red" ng-show="!$ctrl.settings[$ctrl.index].verificationCode">The verrification code must be input!</span>
+
               </div>
             </div>
             <div class="form-group">
