@@ -32,12 +32,53 @@ var ControlController = function () {
     //    });
             
     this.nodelist=[
-    { "id": 1, "nodename": "fault_detection" },
-    { "id": 2, "nodename": "pub_node1" },
-    { "id": 3, "nodename": "pub_node2" },
-    { "id": 4, "nodename": "pub_node3" },
-    { "id": 5, "nodename": "pub_node4" }
-]
+    { "id": 1, "nodename": "base_node" },
+    { "id": 2, "nodename": "sick_laser" },
+    { "id": 3, "nodename": "panasonic_lidar" },
+    { "id": 4, "nodename": "mission_planner" },
+    { "id": 5, "nodename": "global_path_planner" },
+    { "id": 6, "nodename": "gps_driver" },
+    { "id": 7, "nodename": "costmap_evaluate" },
+    { "id": 8, "nodename": "move_base" },
+    { "id": 9, "nodename": "path_evaluate" },
+    { "id": 10, "nodename": "teb_controller" },
+    { "id": 11, "nodename": "jd_ui_node" },
+    { "id": 12, "nodename": "amcl" }
+    ]
+    this.mission_planner=[
+    { "id": 0, "status": "正常状态未定义" },
+    { "id": 1, "status": "等待 Goal" },
+    { "id": 2, "status": "从 UI 收到 Goal" },
+    { "id": 3, "status": "路径规划失败" },
+    { "id": 4, "status": "路径规划成功" },
+    { "id": 5, "status": "分析路径类型" },
+    { "id": 6, "status": "等待局部路径结束" },
+    { "id": 7, "status": "到达 Goal 上报 UI 成功" },
+    { "id": 8, "status": "到达 Goal 上报 UI 失败" }
+    ]
+    this.global_path_planner=[
+    { "id": 0, "status": "无任务" },
+    { "id": 1, "status": "在发 Goal" },
+    { "id": 2, "status": "在规划" }
+    ]
+    this.gps_driver=[
+    { "id": 0, "status": "无航向、无位置" },
+    { "id": 1, "status": "有航向、无位置" },
+    { "id": 2, "status": "有航向、有位置" }
+    ]
+    this.jd_ui_node=[
+    { "id": 0, "status": "初始化 ros 程序" },
+    { "id": 1, "status": "收到服务器下发路径" },
+    { "id": 2, "status": "放货完成" },
+    { "id": 3, "status": "发送目标点" },
+    { "id": 4, "status": "收到达到目的地信号" },
+    { "id": 5, "status": "取货完成" }
+    ]
+    this.amcl=[
+    { "id": 0, "status": "未计算位置" },
+    { "id": 1, "status": "位置不可靠,不发布" },
+    { "id": 2, "status": "位置可靠,发布" }
+    ]
 
           
     

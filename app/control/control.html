@@ -42,7 +42,7 @@
 
         <div class="row" ng-show="$ctrl.batteryStatus">
           <div class="col-xs-4 col-sm-3">
-            <p>{{ 100 * $ctrl.batteryStatus | number: 1 }} %</p>
+            <p>{{ 100 * $ctrl.batteryStatus | number: 1 }} %</p>
           </div>
 
           <div class="col-xs-8 col-md-9">
@@ -80,23 +80,31 @@
 
 	  <div class="panel-body" ng-show="$ctrl.sysstatusStatus">
 	    <div class="row">
-	      <div class="col-sm-6">
-
+             <!-- <div class="col-sm-6">-->
+             <div>
 		    <table class="table table-striped">
 			<tbody>
 			    <tr ng-repeat="x in $ctrl.nodelist">
 				<td>{{x.nodename}}</td>
 				<td class="text-warning" ng-show="$ctrl.sysstatusStatus.data[x.id]==-2" >not initial 未初始化!</td>
 				<td class="text-danger bg-danger" ng-show="$ctrl.sysstatusStatus.data[x.id]==-1" >crash down 节点崩溃!!</td>
-				<td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}</td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'base_node'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（正常运行）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'sick_laser'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（正常运行）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'panasonic_lidar'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（正常运行）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'mission_planner'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（{{$ctrl.mission_planner[$ctrl.sysstatusStatus.data[x.id]].status}}）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'global_path_planner'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（{{$ctrl.global_path_planner[$ctrl.sysstatusStatus.data[x.id]].status}}）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'gps_driver'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（{{$ctrl.gps_driver[$ctrl.sysstatusStatus.data[x.id]].status}}）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'costmap_evaluate'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（正常运行）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'move_base'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（正常运行）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'path_evaluate'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（正常运行）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'teb_controller'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（正常运行）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'jd_ui_node'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（{{$ctrl.jd_ui_node[$ctrl.sysstatusStatus.data[x.id]].status}}）</b></td>
+                                <td ng-show="$ctrl.sysstatusStatus.data[x.id]>-1 && x.nodename == 'amcl'" style="color:#32CD32;">normal 正在运行!  &nbsp; value = {{$ctrl.sysstatusStatus.data[x.id]}}&nbsp;<b>（{{$ctrl.amcl[$ctrl.sysstatusStatus.data[x.id]].status}}）</b></td>
 			    </tr>
 			</tbody>
 		    </table>		   
 		 
-              </div>
-
-		
-	      
+              </div>			      
 	    </div>
 	  </div>
 
